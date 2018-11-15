@@ -1,6 +1,10 @@
 <template>
   <div class="main">
-    <FilterModal v-if="filterModalOn"/>
+    <FilterModal
+      v-if="filterModalOn"
+      v-bind:category="category"
+      v-bind:handlerModalClose="handlerModalClose"
+    />
     <div class="top">
       <div class="filter">
         <button v-on:click="filterModalOn = true">필터</button>
@@ -42,15 +46,25 @@ export default {
       contentsList: [],
       page: 1,
       order: 'asc',
-      category: 1,
+      selectedCat: 1,
+      category: [],
       filterModalOn: false,
     };
   },
   created() {
-    axios.get(`http://comento.cafe24.com/request.php?page=${this.page}&ord=${this.order}&category=${this.category}`)
+    axios.get(`http://comento.cafe24.com/request.php?page=${this.page}&ord=${this.order}&category=${this.selectedCat}`)
       .then((res) => {
         console.log(res.data);
         this.contentsList = res.data.list;
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
+
+    axios.get('http://comento.cafe24.com/category.php')
+      .then((res) => {
+        this.category = res.data.list;
+        console.log(this.category);
       })
       .catch((err) => {
         throw new Error(err);
@@ -59,7 +73,11 @@ export default {
   components: {
     FilterModal,
   },
-  methods: {},
+  methods: {
+    handlerModalClose() {
+      this.filterModalOn = false;
+    },
+  },
   computed: {},
 };
 </script>

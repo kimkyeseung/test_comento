@@ -3,10 +3,10 @@
     <div class="filterModal">
       <fieldset>
         <legend>{{title}}</legend>
-        <button class="filterCloseBtn">닫기</button>
+        <button class="filterCloseBtn" v-on:click="handlerModalClose">닫기</button>
         <template v-for="cat in category">
-          <input type="checkbox" name="filter" id="cat.name" v-bind:key="'input' + cat.name">
-          <label for="cat.name" v-bind:key="'label' + cat.name">{{cat.name}}</label>
+          <input type="checkbox" name="filter" v-bind:id="cat.name" v-bind:key="'input' + cat.name">
+          <label v-bind:for="cat.name" v-bind:key="'label' + cat.name">{{cat.name}}</label>
         </template>
         <button class="filterSaveBtn">저장</button>
       </fieldset>
@@ -15,24 +15,22 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'FilterModal',
+  props: {
+    category: {
+      type: Array,
+      required: true,
+    },
+    handlerModalClose: {
+      type: Function,
+      required: true,
+    },
+  },
   data() {
     return {
       title: '필터',
-      category: [],
     };
-  },
-  created() {
-    axios.get('http://comento.cafe24.com/category.php')
-      .then((res) => {
-        this.category = res.data.list;
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
   },
 };
 </script>
