@@ -3,7 +3,9 @@
     <FilterModal
       v-if="filterModalOn"
       v-bind:category="category"
-      v-bind:handlerModalClose="handlerModalClose"
+      v-bind:handleModalClose="handleModalClose"
+      v-bind:selectedCategory="selectedCategory"
+      v-bind:handleCategorySelect="handleCategorySelect"
     />
     <div class="top">
       <div class="filter">
@@ -21,7 +23,10 @@
         <li v-for="content in contentsList" v-bind:key="content.no">
           <div class="contentsHeader">
             <p class="contentsHeaderCategory">
-              category <span class="contentsHeaderNumber">{{content.no}}</span>
+              {{category[category.findIndex((cat) => cat.no === content.category_no)]
+                ? category[category.findIndex((cat) => cat.no === content.category_no)].name
+                : null}}
+              <span class="contentsHeaderNumber">{{content.no}}</span>
             </p>
           </div>
           <div class="contentsBody">
@@ -46,20 +51,34 @@ export default {
       contentsList: [],
       page: 1,
       order: 'asc',
-      selectedCat: 1,
+      selectedCategory: [1, 2, 3],
       category: [],
       filterModalOn: false,
     };
   },
   created() {
-    axios.get(`http://comento.cafe24.com/request.php?page=${this.page}&ord=${this.order}&category=${this.selectedCat}`)
-      .then((res) => {
-        console.log(res.data);
-        this.contentsList = res.data.list;
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
+    let contentsApi = `http://comento.cafe24.com/request.php?page=${this.page}&ord=${this.order}`;
+    if (this.selectedCategory.length && this.selectedCategory.length < 3) {
+      for (let i = 0; i < this.selectedCategory.length; i++) {
+        contentsApi += `&category=${this.selectedCategory[i]}`;
+        axios.get(contentsApi)
+          .then((res) => {
+            this.contentsList = this.contentsList.concat(res.data.list);
+          })
+          .catch((err) => {
+            throw new Error(err);
+          });
+      }
+    } else {
+      axios.get(contentsApi)
+        .then((res) => {
+          console.log(res.data);
+          this.contentsList = res.data.list;
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    }
 
     axios.get('http://comento.cafe24.com/category.php')
       .then((res) => {
@@ -74,8 +93,12 @@ export default {
     FilterModal,
   },
   methods: {
-    handlerModalClose() {
+    handleModalClose() {
       this.filterModalOn = false;
+    },
+    handleCategorySelect(category) {
+      this.selectedCategory = category.map(cat => Number(cat));
+      console.log('....', this.selectedCategory);
     },
   },
   computed: {},

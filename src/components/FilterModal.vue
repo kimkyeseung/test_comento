@@ -3,12 +3,21 @@
     <div class="filterModal">
       <fieldset>
         <legend>{{title}}</legend>
-        <button class="filterCloseBtn" v-on:click="handlerModalClose">닫기</button>
+        <button class="filterCloseBtn" v-on:click="handleModalClose">닫기</button>
+
         <template v-for="cat in category">
-          <input type="checkbox" name="filter" v-bind:id="cat.name" v-bind:key="'input' + cat.name">
+          <input
+            type="checkbox"
+            v-bind:value="cat.no"
+            v-bind:id="cat.name"
+            v-bind:key="'input' + cat.name"
+            v-model="checkedCategory"
+            true-value="yes"
+            false-value="no"
+          >
           <label v-bind:for="cat.name" v-bind:key="'label' + cat.name">{{cat.name}}</label>
         </template>
-        <button class="filterSaveBtn">저장</button>
+        <button class="filterSaveBtn" v-on:click="handleCategorySelect(checkedCategory)">저장</button>
       </fieldset>
     </div>
   </div>
@@ -22,15 +31,29 @@ export default {
       type: Array,
       required: true,
     },
-    handlerModalClose: {
+    handleModalClose: {
+      type: Function,
+      required: true,
+    },
+    selectedCategory: {
+      type: Array,
+    },
+    handleCategorySelect: {
       type: Function,
       required: true,
     },
   },
   data() {
+    // console.log(this.selectedCategory);
     return {
       title: '필터',
+      checkedCategory: [],
     };
+  },
+  created() {
+    for (let i = 0; i < this.selectedCategory.length; i++) {
+      this.checkedCategory.push(this.selectedCategory[i]);
+    }
   },
 };
 </script>
@@ -83,6 +106,9 @@ export default {
         }
         .filterCloseBtn::after {
           transform: rotate(-45deg);
+        }
+        .filterCloseBtn:hover {
+          opacity: 1;
         }
       }
     }
