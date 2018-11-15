@@ -57,37 +57,8 @@ export default {
     };
   },
   created() {
-    let contentsApi = `http://comento.cafe24.com/request.php?page=${this.page}&ord=${this.order}`;
-    if (this.selectedCategory.length && this.selectedCategory.length < 3) {
-      for (let i = 0; i < this.selectedCategory.length; i++) {
-        contentsApi += `&category=${this.selectedCategory[i]}`;
-        axios.get(contentsApi)
-          .then((res) => {
-            this.contentsList = this.contentsList.concat(res.data.list);
-          })
-          .catch((err) => {
-            throw new Error(err);
-          });
-      }
-    } else {
-      axios.get(contentsApi)
-        .then((res) => {
-          console.log(res.data);
-          this.contentsList = res.data.list;
-        })
-        .catch((err) => {
-          throw new Error(err);
-        });
-    }
-
-    axios.get('http://comento.cafe24.com/category.php')
-      .then((res) => {
-        this.category = res.data.list;
-        console.log(this.category);
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
+    this.getContents(this.page, this.order);
+    this.getCategory();
   },
   components: {
     FilterModal,
@@ -100,8 +71,44 @@ export default {
       this.selectedCategory = category.map(cat => Number(cat));
       console.log('....', this.selectedCategory);
     },
+    getContents(page, order) {
+      let contentsApi = `http://comento.cafe24.com/request.php?page=${page}&ord=${order}`;
+      if (this.selectedCategory.length && this.selectedCategory.length < 3) {
+        for (let i = 0; i < this.selectedCategory.length; i++) {
+          contentsApi += `&category=${this.selectedCategory[i]}`;
+          axios.get(contentsApi)
+            .then((res) => {
+              this.contentsList = this.contentsList.concat(res.data.list);
+            })
+            .catch((err) => {
+              throw new Error(err);
+            });
+        }
+      } else {
+        axios.get(contentsApi)
+          .then((res) => {
+            console.log(res.data);
+            this.contentsList = res.data.list;
+          })
+          .catch((err) => {
+            throw new Error(err);
+          });
+      }
+    },
+    getCategory() {
+      axios.get('http://comento.cafe24.com/category.php')
+        .then((res) => {
+          this.category = res.data.list;
+          console.log(this.category);
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    }
   },
-  computed: {},
+  computed: {
+    
+  },
 };
 </script>
 
@@ -155,7 +162,8 @@ export default {
       text-align: left;
       .contentsHeader {
         background: #fafafa;
-        padding: 4px;
+        margin-top: 10px;
+        padding: 10px;
         position: relative;
         border: 1px solid #999;
         .contentsHeaderCategory {
@@ -163,7 +171,7 @@ export default {
         }
         .contentsHeaderNumber {
           position: absolute;
-          right: 0;
+          right: 10px;
         }
       }
       .contentsBody {
