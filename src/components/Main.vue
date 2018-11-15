@@ -1,6 +1,7 @@
 <template>
   <div class="main">
-    <div class="toolbar">
+    <FilterModal v-if="filterModalOn"/>
+    <div class="top">
       <div class="filter">
         <button v-on:click="filterModalOn = true">필터</button>
       </div>
@@ -15,7 +16,9 @@
       <ul>
         <li v-for="content in contentsList" v-bind:key="content.no">
           <div class="contentsHeader">
-            <p class="contentsHeaderCategory">category <span class="contentsHeaderNumber">{{content.no}}</span></p>
+            <p class="contentsHeaderCategory">
+              category <span class="contentsHeaderNumber">{{content.no}}</span>
+            </p>
           </div>
           <div class="contentsBody">
             <p class="contentsBodyInfo">{{content.email}} | {{content.updated_at.split(' ')[0]}}</p>
@@ -25,7 +28,6 @@
         </li>
       </ul>
     </div>
-    <FilterModal v-if="filterModalOn"/>
   </div>
 </template>
 
@@ -41,28 +43,24 @@ export default {
       page: 1,
       order: 'asc',
       category: 1,
-      filterModalOn: false
+      filterModalOn: false,
     };
   },
   created() {
     axios.get(`http://comento.cafe24.com/request.php?page=${this.page}&ord=${this.order}&category=${this.category}`)
-    .then((res) => {
-      console.log(res.data);
-      this.contentsList = res.data.list;
-    })
-    .catch((err) => {
-      throw new Error(err);
-    });
+      .then((res) => {
+        console.log(res.data);
+        this.contentsList = res.data.list;
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
   },
   components: {
     FilterModal,
   },
-  methods: {
-
-  },
-  computed: {
-    
-  },
+  methods: {},
+  computed: {},
 };
 </script>
 
@@ -77,18 +75,34 @@ export default {
   }
 
   .main {
-    .toolbar {
+    .top {
+      width: 100%;
+      height: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 30px;
+      position: relative;
       .filter {
+        position: absolute;
+        left: 0;
         button {
+          width: 60px;
+          height: 40px;
           border: 1px solid #666;
+          font-size: 20px;
         }
       }
       .order {
+        position: absolute;
+        right: 0;
+        font-size: 20px;
+        line-height: 40px;
         input[type="radio"] {
           display: none
         }
         label {
           background: #fafafa;
+          margin-left: 20px;
         }
       }
     }
@@ -102,7 +116,6 @@ export default {
         background: #fafafa;
         padding: 4px;
         position: relative;
-        margin-top: 10px;
         border: 1px solid #999;
         .contentsHeaderCategory {
           text-align: left;
