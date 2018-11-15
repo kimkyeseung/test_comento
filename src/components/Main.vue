@@ -13,10 +13,27 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+let list = [];
+const order = 'asc';
+const category = 1;
+const page = 1;
+axios.get(`http://comento.cafe24.com/request.php?page=${page}&ord=${order}&category=${category}`)
+  .then((res) => {
+    console.log(res.data);
+    list = res.data;
+  })
+  .catch((err) => {
+    throw err;
+  });
+
 export default {
   name: 'Main',
   data() {
-    return {};
+    return {
+      list,
+    };
   },
 };
 </script>
