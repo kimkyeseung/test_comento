@@ -59,8 +59,12 @@ export default {
     };
   },
   created() {
+    window.addEventListener('scroll', this.onScroll, false);
     this.getContents(this.page, this.order);
     this.getCategory();
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.onScroll, false);
   },
   components: {
     FilterModal,
@@ -74,7 +78,7 @@ export default {
       this.$nextTick(() => {
         this.contentsList.length = 0;
         this.getContents(this.page, this.order);
-      })
+      });
     },
     getContents(page, order) {
       let contentsApi = `http://comento.cafe24.com/request.php?page=${page}&ord=${order}`;
@@ -93,7 +97,7 @@ export default {
         axios.get(contentsApi)
           .then((res) => {
             console.log(res.data);
-            this.contentsList = res.data.list;
+            this.contentsList = this.contentsList.concat(res.data.list);
           })
           .catch((err) => {
             throw new Error(err);
@@ -109,17 +113,15 @@ export default {
           throw new Error(err);
         });
     },
-  },
-  mounted() {
-    // window.addEventListener();
-  },
-  beforeDestroy() {
-    // window.removeEventListener();
+    onScroll() {
+      if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 4)) {
+        this.page++;
+        this.getContents(this.page, this.order);
+      }
+    }
   },
   updated() {
-    console.log('updated');
-  }
-
+  },
 };
 </script>
 
