@@ -48,10 +48,8 @@ export default {
       const contentDetailApi = `http://comento.cafe24.com/detail.php?req_no=${contentNumber}`;
       axios.get(contentDetailApi)
         .then((res) => {
-          console.log(res);
           this.contentDetailArticle = res.data.detail.article;
           this.contentDetailreplies = res.data.detail.replies;
-          console.log(this);
         })
         .catch((err) => {
           throw new Error(err);

@@ -20,8 +20,15 @@
     </div>
     <div class="contents">
       <ul>
-        <li v-for="content in contentsList" v-bind:key="content.no">
-          <router-link v-bind:to="content.no">
+        <li v-for="(content, index) in contentsList" v-bind:key="content.no">
+          <div v-if="index && index % 4 === 0" class="ads">
+            <p class="adsHeader">Sponsored</p>
+            <div class="adsBody" >
+              광고가 노출
+              <!-- <img src="http://comento.cafe24.com/public/images/" alt=""> -->
+            </div>
+          </div>
+          <router-link v-bind:to="content.no" >
             <div class="contentsHeader">
               <p class="contentsHeaderCategory">
                 {{category[category.findIndex((cat) => cat.no === content.category_no)]
@@ -51,6 +58,8 @@ export default {
   data() {
     return {
       contentsList: [],
+      adsList: [],
+      adindex: 0,
       page: 1,
       order: 'asc',
       selectedCategory: [1, 2, 3],
@@ -62,6 +71,7 @@ export default {
     window.addEventListener('scroll', this.onScroll, false);
     this.getContents(this.page, this.order);
     this.getCategory();
+    this.getAds(this.page);
   },
   destroyed() {
     window.removeEventListener('scroll', this.onScroll, false);
@@ -97,7 +107,6 @@ export default {
       } else {
         axios.get(contentsApi)
           .then((res) => {
-            console.log(res.data);
             this.contentsList = this.contentsList.concat(res.data.list);
           })
           .catch((err) => {
@@ -109,6 +118,15 @@ export default {
       axios.get('http://comento.cafe24.com/category.php')
         .then((res) => {
           this.category = res.data.list;
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    },
+    getAds(page, limit = 3) {
+      axios.get(`http://comento.cafe24.com/ads.php?page=${page}&limit${limit}`)
+        .then((res) => {
+          this.adsList = res.data.list;
         })
         .catch((err) => {
           throw new Error(err);

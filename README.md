@@ -2,20 +2,50 @@
 
 > test project for comento
 
-## Build Setup
+
+## 실행하기
 
 ``` bash
-# install dependencies
+git clone https://github.com/kimkyeseung/test_comento.git
 npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+npm start
 ```
+localhost:8080에서 보실 수 있습니다.
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## 구현한 것
+
+- 리스트를 10개씩 불러오고 infinite scroll로 10개씩 추가로 불러오도록 하였습니다.
+- 정렬하기를 통하여 정렬할 수 있습니다.(기본: 오름차순)
+- 필터 모달을 통하여 원하는 리스트만 볼 수 있습니다. (아무것도 선택하지 않을 시 전체 선택한 것 과 같음)
+- 각 컨텐츠 항목을 클릭하여 디테일페이지로 진입할 수 있습니다.
+- 디테일페이지 진입시 가입유도 팝업이 노출됩니다.
+- 가입유도 팝업을 닫으면 하단에 배너가 노출됩니다.
+  
+
+## 구현하지 못 한것
+
+- 부트스트랩을 사용하지 못하였습니다.
+- 반응형웹으로 구현하지 못하였습니다.
+- 크로스브라우징에 대응하지 못하였습니다.
+- 4번째 인덱스마다 광고컨텐츠를 불러오는데 성공하지 못하였습니다.
+- 글자수가 많을 때 생략하지 못하였습니다.
+- 마우스 스크롤이벤트에 디바운스를 적용하였더니 this객체의 바인딩이 문제가 생겨 디바운스를 하지 못하였습니다.
+
+
+## 하고 싶은 말
+
+사실 Vue.js는 한 번도 접해본 경험이 없어서 과제를 처음 받았을 때 포기해야 하는게 아닌지 망설였었습니다. 2일이라는 짧은 시간동안 Vue를 공부함과 동시에 구체적인 기능을 구현할 수 있을지 확신이 잘 서지 앟았기 때문입니다. 그래도 과제의 난이도가 높지 않다고 판단하였고 React를 웬만큼 할 줄 알는 저에게는 Vue는 상대적으로 문서와 예시가 풍부하여서 충분히 해볼만하다고 생각이 들었습니다. 
+
+
+## Vue를 접하고 느낀 점
+
+immutability 속성때문에 state의 변경을 setState를 통하여 변경하는 React보다는 상당히 간결하고 직관적이라는 느낌이 많이 들었습니다. ```props```를 통하여 상위 컴포넌트에서 전달받은 함수를 통하여 하위 컴포넌트에서 상위 컴포넌트의 data를 직접적인 접근하고 변경할 수 있다는 것이 상당히 편하게 느껴졌습니다. ```.vue``` 파일 style과 script, template가 한 번에 들어있고 스타일의 scope를 제한 할 수 있다는 점도 재밌었습니다. 
+특히 무엇보다 문서가 상당 부분 한글화가 되어있어 막히는 부분 및 팁을 얻기가 쉽고 좋았습니다.
+
+
+## 하고 싶은 말2
+
+제가 React 유저여서 일부러 Vue 과제를 주신건지는 알 수 없지만 덕분에 Vue를 접해볼 기회가 생겼고 덕분에 Vue를 공부하고 어느정도 다룰 수 있게 되어 기쁘게 생각합니다. 과제가 양이 적지 않고 메일을 확인해본 시간이 늦어 bootstrap 적용과 반응형 웹구현, 크로스 브라우징은 포기한 상태로 시작하였습니다. less도 충분히 사용할 수 있는 변수조차도 사용하지 않고 즉석에서 색상을 지정하며 기능구현에만 힘 썼던것 같습니다. 단위 테스트라도 작성할 수 있었다면 좋았을테지만 테스트도 작성하지 못하였습니다. 4번째 인덱스마다 광고가 노출되는 것을 구현하는데 조금 어려움이 느껴졌었습니다. 그 부분은 제출 이후에도 확실히 구현해보려 합니다.
+
+부족함이 많은 코드지만 잘 부탁드리겠습니다.
