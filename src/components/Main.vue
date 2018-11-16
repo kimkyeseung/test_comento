@@ -113,15 +113,6 @@ export default {
 </script>
 
 <style lang="less">
-  * {
-    margin: 0;
-    padding: 0;
-  }
-
-  ul,li {
-    list-style: none;
-  }
-
   .main {
     .top {
       width: 100%;

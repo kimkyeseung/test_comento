@@ -44,7 +44,6 @@ export default {
     },
   },
   data() {
-    // console.log(this.selectedCategory);
     return {
       title: '필터',
       checkedCategory: [],
