@@ -71,6 +71,10 @@ export default {
     },
     handleCategorySelect(category) {
       this.selectedCategory = category.map(cat => Number(cat));
+      this.$nextTick(() => {
+        this.contentsList.length = 0;
+        this.getContents(this.page, this.order);
+      })
     },
     getContents(page, order) {
       let contentsApi = `http://comento.cafe24.com/request.php?page=${page}&ord=${order}`;
@@ -106,6 +110,16 @@ export default {
         });
     },
   },
+  mounted() {
+    // window.addEventListener();
+  },
+  beforeDestroy() {
+    // window.removeEventListener();
+  },
+  updated() {
+    console.log('updated');
+  }
+
 };
 </script>
 
