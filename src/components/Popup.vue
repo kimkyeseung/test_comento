@@ -63,6 +63,19 @@ export default {
       left: 50%;
       margin-left: -400px;
       padding-top: 20px;
+      .message {
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 20px;
+        padding: 30px 140px;
+        box-sizing: border-box;
+        font-size: 22px;
+        line-height: 30px;
+        border: 1px solid black;
+        span {
+          color: red;
+        }
+      }
       .socialAuthentication {
         width: 90%;
         color: white;

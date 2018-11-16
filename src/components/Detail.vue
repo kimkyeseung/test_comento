@@ -4,11 +4,13 @@
       v-if="initialVisit"
       v-bind:handleAfterwards="handleAfterwards"
     />
+    <Banner v-else/>
   </div>
 </template>
 
 <script>
 import Popup from './Popup';
+import Banner from './Banner';
 
 export default {
   name: 'Detail',
@@ -20,6 +22,7 @@ export default {
   },
   components: {
     Popup,
+    Banner
   },
   created() {
 
