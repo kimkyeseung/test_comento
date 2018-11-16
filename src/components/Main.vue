@@ -12,10 +12,10 @@
         <button v-on:click="filterModalOn = true">필터</button>
       </div>
       <div class="order">
-        <input type="radio" name="order" id="orderAsc">
-        <label for="orderAsc">오름차순</label>
+        <input type="radio" name="order" id="orderAsc" checked>
+        <label for="orderAsc" v-on:click="handleSort('asc')">오름차순</label>
         <input type="radio" name="order" id="orderDesc">
-        <label for="orderDesc">내림차순</label>
+        <label for="orderDesc" v-on:click="handleSort('desc')">내림차순</label>
       </div>
     </div>
     <div class="contents">
@@ -76,6 +76,7 @@ export default {
     handleCategorySelect(category) {
       this.selectedCategory = category.map(cat => Number(cat));
       this.$nextTick(() => {
+        this.page = 1;
         this.contentsList.length = 0;
         this.getContents(this.page, this.order);
       });
@@ -118,6 +119,19 @@ export default {
         this.page++;
         this.getContents(this.page, this.order);
       }
+    },
+    handleSort(order) {
+      if (order === 'asc') {
+        this.contentsList.sort((a, b) => {
+          return a.no - b.no;
+        });
+        this.order = 'asc';
+      } else {
+        this.contentsList.sort((a, b) => {
+          return b.no - a.no;
+        });
+        this.order = 'desc';
+      }
     }
   },
   updated() {
@@ -152,9 +166,12 @@ export default {
         input[type="radio"] {
           display: none
         }
-        label {
+        input[type="radio"] + label {
           background: #fafafa;
           margin-left: 20px;
+        }
+        input[type="radio"]:checked + label {
+          color: red;
         }
       }
     }
