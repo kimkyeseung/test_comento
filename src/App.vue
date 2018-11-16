@@ -22,6 +22,10 @@ export default {
   margin: 0;
   padding: 0;
 }
+a:active, a:hover, a:visited, a:link {
+  text-decoration: none;
+  color: #444;
+}
 ul,li {
   list-style: none;
 }

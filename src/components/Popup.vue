@@ -24,7 +24,7 @@ export default {
     handleAfterwards: {
       type: Function,
       required: true,
-    }
+    },
   },
   data() {
     return {
@@ -32,20 +32,20 @@ export default {
       socialAuthentication: [
         {
           name: '페이스북',
-          brandColor: '#3b5998'
+          brandColor: '#3b5998',
         },
         {
           name: '구글',
-          brandColor: '#ea4335'
+          brandColor: '#ea4335',
         },
         {
           name: '네이버',
-          brandColor: '#00bd39'
-        }
+          brandColor: '#00bd39',
+        },
       ],
     };
   },
-}
+};
 </script>
 
 <style lang="less" scoped>

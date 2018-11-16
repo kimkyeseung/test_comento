@@ -10,15 +10,13 @@
 </template>
 
 <script>
-import Popup from './Popup';
-
 export default {
   name: 'Banner',
   data() {
     return {
     };
   },
-}
+};
 </script>
 
 <style lang="less" scoped>

@@ -21,19 +21,21 @@
     <div class="contents">
       <ul>
         <li v-for="content in contentsList" v-bind:key="content.no">
-          <div class="contentsHeader">
-            <p class="contentsHeaderCategory">
-              {{category[category.findIndex((cat) => cat.no === content.category_no)]
-                ? category[category.findIndex((cat) => cat.no === content.category_no)].name
-                : null}}
-              <span class="contentsHeaderNumber">{{content.no}}</span>
-            </p>
-          </div>
-          <div class="contentsBody">
-            <p class="contentsBodyInfo">{{content.email}} | {{content.updated_at.split(' ')[0]}}</p>
-            <h2 class="contentsBodyTitle">{{content.title}}</h2>
-            <p class="contentsBodyContents">{{content.contents}}</p>
-          </div>
+          <router-link v-bind:to="content.no">
+            <div class="contentsHeader">
+              <p class="contentsHeaderCategory">
+                {{category[category.findIndex((cat) => cat.no === content.category_no)]
+                  ? category[category.findIndex((cat) => cat.no === content.category_no)].name
+                  : null}}
+                <span class="contentsHeaderNumber">{{content.no}}</span>
+              </p>
+            </div>
+            <div class="contentsBody">
+              <p class="contentsBodyInfo">{{content.email}} | {{content.updated_at.split(' ')[0]}}</p>
+              <h2 class="contentsBodyTitle">{{content.title}}</h2>
+              <p class="contentsBodyContents">{{content.contents}}</p>
+            </div>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -69,7 +71,6 @@ export default {
     },
     handleCategorySelect(category) {
       this.selectedCategory = category.map(cat => Number(cat));
-      console.log('....', this.selectedCategory);
     },
     getContents(page, order) {
       let contentsApi = `http://comento.cafe24.com/request.php?page=${page}&ord=${order}`;
@@ -99,15 +100,11 @@ export default {
       axios.get('http://comento.cafe24.com/category.php')
         .then((res) => {
           this.category = res.data.list;
-          console.log(this.category);
         })
         .catch((err) => {
           throw new Error(err);
         });
-    }
-  },
-  computed: {
-    
+    },
   },
 };
 </script>
@@ -151,6 +148,9 @@ export default {
       max-width: 1200px;
       margin: 0 auto;
       text-align: left;
+      .router-link {
+        text-decoration: none;
+      }
       .contentsHeader {
         background: #fafafa;
         margin-top: 10px;
