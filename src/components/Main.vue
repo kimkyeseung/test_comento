@@ -38,7 +38,9 @@
               </p>
             </div>
             <div class="contentsBody">
-              <p class="contentsBodyInfo">{{content.email}} | {{content.updated_at.split(' ')[0]}}</p>
+              <p class="contentsBodyInfo">
+                {{content.email}} | {{content.updated_at.split(' ')[0]}}
+              </p>
               <h2 class="contentsBodyTitle">{{content.title}}</h2>
               <p class="contentsBodyContents">{{content.contents}}</p>
             </div>
@@ -140,17 +142,13 @@ export default {
     },
     handleSort(order) {
       if (order === 'asc') {
-        this.contentsList.sort((a, b) => {
-          return a.no - b.no;
-        });
+        this.contentsList.sort((a, b) => a.no - b.no);
         this.order = 'asc';
       } else {
-        this.contentsList.sort((a, b) => {
-          return b.no - a.no;
-        });
+        this.contentsList.sort((a, b) => b.no - a.no);
         this.order = 'desc';
       }
-    }
+    },
   },
   updated() {
   },

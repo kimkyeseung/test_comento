@@ -72,8 +72,5 @@ export default {
         position: relative;
         border: 1px solid #999;
       }
-      .contentsDetailContextBody {
-        
-      }
   }
 </style>
